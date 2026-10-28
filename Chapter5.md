@@ -2,79 +2,58 @@
 
 # SUMMARY OF FINDINGS, CONCLUSIONS, AND RECOMMENDATIONS
 
-This chapter presents the summary of the system developed, the findings, the conclusions drawn, and the recommendations for the improvement of the **Child Welfare Resource Allocation Management System** of Bahay Pag-asa, San Antonio, Biñan City, Laguna.
+This chapter presents the current implementation status and recommendations for the **Child Welfare Resource Allocation Management System** of Bahay Pag-asa, San Antonio, Biñan City, Laguna.
 
 ---
 
 ## 5.1 Summary of the Study
 
-The study aimed to replace the manual, paper-based handling of child case records, inventory, donations, and reports at Bahay Pag-asa with a web-based information system. The system was developed using **PHP** for server-side processing, **MySQL** for the database, and **Bootstrap**, **JavaScript**, and **DataTables** for the user interface. It runs on a local **XAMPP** (Apache and MySQL) server.
+The project is intended to support the management of child case records, resources, donations, and related information at Bahay Pag-asa. The current application code has been converted to **JavaScript** using **Next.js** and **React**, with **Supabase Auth** for authentication, **Supabase Postgres** for data, and **Vercel** as its deployment target.
 
-The system has two user roles, **Administrator** and **Staff**, each with its own dashboard and menu. Access to every page is restricted by role and requires login.
+The current implementation provides email-and-password sign-in, active-account checks, role-protected Administrator and Staff dashboards, and database row-level security. Its dashboard pages display summary counts from Supabase.
 
-| Module | Administrator | Staff |
-|---|---|---|
-| Dashboard | Summary of active children, monthly donations, resources, partners, and recent records | Summary of active children, own donations, and recent records |
-| Account Management | Create, edit, and manage user accounts | — |
-| Child Records | Add, view, edit, archive, restore, delete | View records |
-| Case Status Update | — | Update a child's case status, with history kept |
-| Resource & Inventory | Add, edit, archive, restore, delete | — |
-| Partner Information | Add, edit, manage partner organizations | — |
-| Donation Management | Add, edit, view donations | Record and view own donations |
-| Distribution | Record, archive, restore, delete distributions of donations | — |
-| Audit Trail | View the log of user activities | — |
-| Generate Reports | Child, donation, resource, and partner reports | Child, own donation, and case update reports |
+| Area | Current implementation |
+|---|---|
+| Authentication | Supabase Auth email/password sign-in; user accounts are provisioned by an administrator |
+| Authorization | Administrator and Staff roles, active-account checks, protected routes, and database row-level security |
+| Administrator dashboard | Counts for active children, donation records received this month, resources, and partners |
+| Staff dashboard | Counts for active children, the signed-in staff member's donation records, and case history entries |
+| Database | Supabase migration defining the initial tables, trigger, grants, and row-level security policies |
+| Deployment | Next.js build configuration and setup instructions for Vercel |
 
-Notable features of the system:
+The earlier specification includes child-record management, donation entry, resource allocation, distribution, audit-log viewing, and report generation. Those user-facing workflows are not implemented in the current application and should be treated as future work.
 
-1. **Role-based access control.** Pages are limited to the signed-in user's role.
-2. **Cash-only amount field.** On donation forms, the Amount field appears only when the donation type is *Cash*. For other types, the amount is saved as zero.
-3. **Archive function.** Child Records, Resource & Inventory, and Distribution can be archived instead of deleted. Archived records are hidden from the active lists, dashboards, and reports, and can be restored. Only archived records can be permanently deleted.
-4. **Audit Trail.** Important actions such as logins, additions, updates, archiving, restoring, and deletions are recorded with the user, date and time, and module.
-5. **Print-ready reports.** When a report is printed, only the report title, record count, and data table are printed. The menu, filters, and buttons are left out.
-6. **Active menu highlighting.** The sidebar highlights only the section the user is currently in.
+Notable features currently present:
+
+1. **Role-based access.** Administrator and Staff dashboards verify the signed-in user's active profile and role.
+2. **Managed accounts.** Public registration is not part of the application; accounts are created in Supabase Auth and assigned a role by an administrator.
+3. **Database access policies.** The Supabase migration enables row-level security and defines access rules for the initial application tables.
+4. **Cloud deployment setup.** The repository includes environment-variable and Vercel setup instructions. A live deployment still requires a configured Supabase project and Vercel project.
 
 ---
 
 ## 5.2 Summary of Findings
 
-Based on the development and testing of the system, the following were found:
+The current codebase establishes the application's cloud-hosted foundation: authentication, role-aware route handling, a relational data model, and dashboard queries. It does not yet provide the complete record-management workflows described in the original specification, so those functions require implementation and testing before the system can be considered feature-complete.
 
-1. Manual record keeping made it slow to search, update, and retrieve child case files, inventory counts, and donation records. The system stores these in one database and lets users search, sort, and filter them.
-2. Separating Administrator and Staff access protects sensitive child information and limits system changes to authorized users.
-3. Recording donations and their distribution in separate modules lets the staff trace what was received and where it went.
-4. Showing the amount field only for cash donations avoids meaningless entries such as a peso amount for food or clothing donations.
-5. Archiving lets the staff remove outdated entries from daily use without losing them, and restore them when needed.
-6. The Audit Trail provides a record of who did what and when, which supports accountability.
-7. Reports can be generated by type and date range, and printed without unrelated screen elements.
-8. The Administrator and Staff dashboards give a quick summary of the home's current records.
+No user evaluation results or production deployment results are asserted in this summary.
 
 ---
 
 ## 5.3 Conclusions
 
-Based on the findings, the researchers conclude that:
-
-1. The developed system meets its objective of computerizing child records, resource inventory, partner information, donation management, and distribution at Bahay Pag-asa.
-2. Role-based access and login requirements help protect confidential child records.
-3. Keeping donations, distributions, and inventory in one system improves the accuracy of records and the monitoring of resources.
-4. The archive and audit trail features support data retention and accountability, since records are preserved and actions can be traced.
-5. The report generation and printing features reduce the time and effort needed to prepare reports for the staff and the administrators.
-6. The system is easy to use, since it follows a consistent layout with a sidebar menu, search tables, and simple forms.
+The conversion establishes a JavaScript and Supabase foundation suitable for deployment through Vercel. Supabase Auth and database row-level security provide the initial authentication and access-control mechanisms. The application is not yet a complete resource-allocation management system: the planned CRUD, archive and restore, distribution, audit-trail, and reporting workflows remain to be built and validated.
 
 ---
 
 ## 5.4 Recommendations
 
-To further improve the system, the following are recommended:
-
-1. **Backup and recovery.** Schedule regular database backups and keep copies on a separate device or cloud storage.
-2. **Stronger security.** Deploy the system over HTTPS, enforce strong passwords, add session timeout, and consider two-factor authentication for administrator accounts.
-3. **Wider audit coverage.** Extend the audit trail to record the old and new values of edited records, and add filters by user, date, and module.
-4. **Archive policy.** Set a retention policy that states how long archived records are kept before they may be permanently deleted.
-5. **Report export.** Add export of reports to PDF and Excel, and add charts to the dashboards.
-6. **Notifications.** Add alerts for low inventory, pending donations, and cases needing follow-up.
-7. **Staff modules.** Give staff controlled access to inventory and distribution records, if the management allows it.
-8. **Online deployment and mobile use.** Host the system on a secure server, and make it fully usable on tablets and mobile phones.
-9. **Training.** Train all users on the system before regular use, and prepare a user manual.
-10. **Future research.** Future researchers may add features such as a donor portal, SMS or email notices, document upload for case files, and analytics for resource allocation.
+1. **Complete core modules.** Implement and test child records, resources, partners, donation management, distributions, and reports.
+2. **Test access policies.** Verify every read and write operation using separate Administrator and Staff accounts before entering real child-welfare data.
+3. **Backup and recovery.** Establish and test regular database backups and a recovery process.
+4. **Audit coverage.** Record important changes, including old and new values, and provide appropriate administrative audit-log views.
+5. **Archive policy.** Define how long archived records are retained and who may permanently remove them.
+6. **Reports and notifications.** Add validated reports, exports, and alerts for low inventory, pending donations, and cases needing follow-up.
+7. **Mobile usability.** Test the complete workflows on phones and tablets.
+8. **Deployment readiness.** Configure Supabase authentication URLs and Vercel environment variables, then verify the hosted deployment over HTTPS before production use.
+9. **Training and privacy.** Train users and establish procedures for handling confidential case data.

@@ -4,7 +4,7 @@
 
 ### 1. Purpose
 
-The Child Welfare Resource Allocation Management System of Bahay Pag-asa was evaluated using the **ISO/IEC 9126 Software Quality Model** to verify that it meets the quality expected of the system. The evaluation measures how the respondents rate the system on six quality characteristics.
+This draft evaluation instrument is for the current JavaScript application for Bahay Pag-asa, built with Next.js, Supabase Auth, and Supabase Postgres and intended for Vercel deployment. It measures six software quality characteristics. Complete the evaluation only after the application has been configured, deployed, and tested. The current implementation covers sign-in, role-protected dashboards, and initial database policies; it does not yet include all record-management, distribution, or reporting workflows in the original plan.
 
 ### 2. The ISO/IEC 9126 Quality Characteristics
 
@@ -21,14 +21,16 @@ The Child Welfare Resource Allocation Management System of Bahay Pag-asa was eva
 
 | Respondent Group | Description | Number of Respondents |
 |---|---|---|
-| Administrators / Management | Head and staff who manage accounts, records, inventory, and reports | ___ |
-| Staff / Social Workers | Users who record donations and update case status | ___ |
+| Administrators / Management | Personnel who manage accounts and oversee the system | ___ |
+| Staff / Social Workers | Users who access the staff dashboard | ___ |
 | IT Experts | Persons knowledgeable in software quality | ___ |
 | **Total** | | ___ |
 
-### 4. Evaluation Instrument
+### 4. Evaluation Instrumen
 
 Respondents rate each statement from 1 to 5.
+
+Rate only functionality that is present in the deployed version. Statements about planned workflows must be added after those features are implemented.
 
 **Rating Scale**
 
@@ -44,23 +46,23 @@ Respondents rate each statement from 1 to 5.
 
 | No. | Statement | 5 | 4 | 3 | 2 | 1 |
 |---|---|---|---|---|---|---|
-| 1 | The system provides the functions needed to manage child records, resources, partners, donations, and distribution. | | | | | |
-| 2 | The system saves, updates, and displays records accurately. | | | | | |
-| 3 | The Amount field appears only for cash donations, and non-cash donations are saved without an amount. | | | | | |
-| 4 | Only authorized users can access each module (Administrator and Staff access). | | | | | |
-| 5 | The login requirement protects confidential child records. | | | | | |
-| 6 | The system generates the needed reports (child, donation, resource, partner) and prints only the report data. | | | | | |
-| 7 | The Audit Trail records user activities. | | | | | |
+| 1 | The system allows a provisioned user to sign in using email and password. | | | | | |
+| 2 | The system directs administrators and staff to their appropriate dashboards. | | | | | |
+| 3 | Inactive or unconfigured accounts are prevented from accessing a dashboard. | | | | | |
+| 4 | The dashboard displays summary counts from the database. | | | | | |
+| 5 | Row-level security restricts access to application data according to the user's role. | | | | | |
+| 6 | The login page clearly explains that accounts are provisioned by an administrator. | | | | | |
+| 7 | The system displays an appropriate message when sign-in fails. | | | | | |
 
 #### B. Reliability
 
 | No. | Statement | 5 | 4 | 3 | 2 | 1 |
 |---|---|---|---|---|---|---|
 | 1 | The system runs without errors or unexpected shutdowns during use. | | | | | |
-| 2 | The system shows a message when required information is missing or an error occurs. | | | | | |
-| 3 | Archived records can be restored, so records are not lost by mistake. | | | | | |
-| 4 | Confirmation is asked before archiving or deleting a record. | | | | | |
-| 5 | The system keeps data consistent after repeated use. | | | | | |
+| 2 | The system shows a useful message when sign-in fails. | | | | | |
+| 3 | The system handles an inactive account without granting dashboard access. | | | | | |
+| 4 | The application maintains the user's authenticated session while navigating protected pages. | | | | | |
+| 5 | Dashboard counts reflect the data currently stored in Supabase. | | | | | |
 
 #### C. Usability
 
@@ -68,45 +70,45 @@ Respondents rate each statement from 1 to 5.
 |---|---|---|---|---|---|---|
 | 1 | The menus and page titles are clear and easy to understand. | | | | | |
 | 2 | The system is easy to learn, even without extensive training. | | | | | |
-| 3 | The forms, buttons, and tables are easy to operate. | | | | | |
-| 4 | The sidebar highlights the section the user is currently in. | | | | | |
-| 5 | The design and colors of the system are pleasing. | | | | | |
-| 6 | The search, sort, and filter features help in finding records quickly. | | | | | |
+| 3 | The sign-in form labels and instructions are easy to understand. | | | | | |
+| 4 | The system clearly identifies whether the user is an administrator or staff member. | | | | | |
+| 5 | The dashboard layout and colors are pleasing. | | | | | |
+| 6 | Dashboard summary values are easy to find and understand. | | | | | |
 
 #### D. Efficiency
 
 | No. | Statement | 5 | 4 | 3 | 2 | 1 |
 |---|---|---|---|---|---|---|
 | 1 | Pages load quickly. | | | | | |
-| 2 | Saving, updating, and archiving records is done in a short time. | | | | | |
-| 3 | Reports are generated quickly. | | | | | |
-| 4 | The system runs smoothly on the available computer without slowing it down. | | | | | |
+| 2 | Signing in and opening the correct dashboard takes a reasonable amount of time. | | | | | |
+| 3 | Dashboard summary counts load in a reasonable amount of time. | | | | | |
+| 4 | The web application runs smoothly on the user's device. | | | | | |
 
 #### E. Maintainability
 
 | No. | Statement | 5 | 4 | 3 | 2 | 1 |
 |---|---|---|---|---|---|---|
-| 1 | The system is organized by module (admin, staff, includes, database), so problems are easy to locate. | | | | | |
-| 2 | New fields or modules can be added without changing the whole system. | | | | | |
-| 3 | Changes to one module do not cause errors in other modules. | | | | | |
-| 4 | The system can be tested module by module. | | | | | |
+| 1 | The application separates pages, components, authentication, and database access into clear areas. | | | | | |
+| 2 | The database structure is maintained using versioned migration files. | | | | | |
+| 3 | Environment-specific settings are separated from application source code. | | | | | |
+| 4 | The application can be built and tested independently of its production deployment. | | | | | |
 
 #### F. Portability
 
 | No. | Statement | 5 | 4 | 3 | 2 | 1 |
 |---|---|---|---|---|---|---|
 | 1 | The system works on common web browsers. | | | | | |
-| 2 | The system can be installed on another computer with XAMPP (Apache and MySQL). | | | | | |
+| 2 | The application can be deployed to Vercel using the documented configuration. | | | | | |
 | 3 | The system's pages adjust to different screen sizes. | | | | | |
-| 4 | The database can be moved to another server using the provided schema file. | | | | | |
+| 4 | The application can connect to a configured Supabase project using environment variables. | | | | | |
 
-### 5. Statistical Treatment
+### 5. Statistical Treatmen
 
 The **weighted mean** is used for each statement and each characteristic:
 
-```
+
 Weighted Mean = Σ(f × w) / N
-```
+
 
 where **f** is the number of respondents who chose a rating, **w** is the rating (1 to 5), and **N** is the total number of respondents.
 
