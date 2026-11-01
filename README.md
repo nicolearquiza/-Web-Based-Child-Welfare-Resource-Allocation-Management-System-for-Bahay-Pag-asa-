@@ -45,13 +45,15 @@ A JavaScript web application built with Next.js, Supabase Auth, and Supabase Pos
 
    Visit [http://localhost:3000](http://localhost:3000) and sign in with the email and password created in step 6. The account promoted in step 7 should open the administrator dashboard.
 
-   **Windows PowerShell troubleshooting:** If `node` or `npm` is not recognized after installing the project's per-user Node.js version, close and reopen PowerShell or restart VS Code so the updated user `PATH` is loaded. If the current terminal still cannot find npm, call its full path directly:
+   **Windows PowerShell troubleshooting:** Check `node --version` and `npm.cmd --version` before installing. If `node` reports a version older than 22.13 (or `npm.cmd install` fails while replacing files under `node_modules\.bin`), the terminal may be using an older system Node.js/npm even though the project's per-user Node.js is installed. Close and reopen PowerShell or restart VS Code to reload the updated user `PATH`. If the version is still wrong, call the project's Node.js/npm directly:
 
    ```powershell
-   & "$env:LOCALAPPDATA\Programs\nodejs-22.23.4\node.exe" --version
-   & "$env:LOCALAPPDATA\Programs\nodejs-22.23.4\npm.cmd" --version
-   & "$env:LOCALAPPDATA\Programs\nodejs-22.23.4\npm.cmd" install
-   & "$env:LOCALAPPDATA\Programs\nodejs-22.23.4\npm.cmd" run dev
+   $node22 = "$env:LOCALAPPDATA\Programs\nodejs-22.23.4"
+   $env:Path = "$node22;$env:Path"
+   node --version
+   npm.cmd --version
+   npm.cmd install
+   npm.cmd run dev
    ```
 
    Use `npm.cmd` in PowerShell to invoke npm's Windows command file without changing the PowerShell script execution policy.
