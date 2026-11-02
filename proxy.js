@@ -31,7 +31,7 @@ export async function proxy(request) {
     error,
   } = await supabase.auth.getUser();
 
-  if (error) {
+  if (error && error.name !== 'AuthSessionMissingError') {
     throw new Error(`Unable to validate the Supabase session: ${error.message}`);
   }
 

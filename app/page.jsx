@@ -12,7 +12,7 @@ export default async function LoginPage({ searchParams }) {
     error: authError,
   } = await supabase.auth.getUser();
 
-  if (authError) {
+  if (authError && authError.name !== 'AuthSessionMissingError') {
     throw new Error(`Unable to validate the Supabase session: ${authError.message}`);
   }
 
