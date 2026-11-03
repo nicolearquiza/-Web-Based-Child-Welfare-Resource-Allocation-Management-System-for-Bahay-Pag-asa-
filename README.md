@@ -39,9 +39,12 @@ A JavaScript web application built with Next.js, Supabase Auth, and Supabase Pos
 9. **Start and test locally.** Install Node.js 22.13+ or 24.x LTS and npm if they are not installed. After installing, close and reopen PowerShell (or the VS Code window) so it loads the updated `PATH`. Verify `node --version` and `npm --version`, then open PowerShell in the project folder and run:
 
    ```powershell
+   npm.cmd test
    npm.cmd install
    npm.cmd run dev
    ```
+
+   The test command covers login validation, staff/admin routing, invalid credentials, and inactive-account handling.
 
    Visit [http://localhost:3000](http://localhost:3000) and sign in with the email and password created in step 6. The account promoted in step 7 should open the administrator dashboard.
 
