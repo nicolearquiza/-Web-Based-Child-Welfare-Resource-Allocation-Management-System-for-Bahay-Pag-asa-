@@ -153,27 +153,37 @@
   grant select, insert on public.activity_logs to authenticated;
   grant execute on function public.current_user_role() to authenticated;
 
+  drop policy if exists "Users can view their own profile or admins can view all"
+    on public.user_profiles;
   create policy "Users can view their own profile or admins can view all"
     on public.user_profiles for select to authenticated
     using (id = (select auth.uid()) or (select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Active users can view children" on public.children;
   create policy "Active users can view children"
     on public.children for select to authenticated
     using ((select public.current_user_role()) in ('admin', 'staff'));
+  drop policy if exists "Admins can insert children" on public.children;
   create policy "Admins can insert children"
     on public.children for insert to authenticated
     with check ((select public.current_user_role()) = 'admin');
+  drop policy if exists "Admins can update children" on public.children;
   create policy "Admins can update children"
     on public.children for update to authenticated
     using ((select public.current_user_role()) = 'admin')
     with check ((select public.current_user_role()) = 'admin');
+  drop policy if exists "Admins can delete children" on public.children;
   create policy "Admins can delete children"
     on public.children for delete to authenticated
     using ((select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Active users can view case history"
+    on public.case_status_history;
   create policy "Active users can view case history"
     on public.case_status_history for select to authenticated
     using ((select public.current_user_role()) in ('admin', 'staff'));
+  drop policy if exists "Active staff can add case history"
+    on public.case_status_history;
   create policy "Active staff can add case history"
     on public.case_status_history for insert to authenticated
     with check (
@@ -181,61 +191,82 @@
       and changed_by = (select auth.uid())
     );
 
+  drop policy if exists "Active users can view partners" on public.partners;
   create policy "Active users can view partners"
     on public.partners for select to authenticated
     using ((select public.current_user_role()) in ('admin', 'staff'));
+  drop policy if exists "Admins can manage partners" on public.partners;
   create policy "Admins can manage partners"
     on public.partners for all to authenticated
     using ((select public.current_user_role()) = 'admin')
     with check ((select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Active users can view resources" on public.resources;
   create policy "Active users can view resources"
     on public.resources for select to authenticated
     using ((select public.current_user_role()) in ('admin', 'staff'));
+  drop policy if exists "Admins can manage resources" on public.resources;
   create policy "Admins can manage resources"
     on public.resources for all to authenticated
     using ((select public.current_user_role()) = 'admin')
     with check ((select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Active users can view allocations"
+    on public.resource_allocations;
   create policy "Active users can view allocations"
     on public.resource_allocations for select to authenticated
     using ((select public.current_user_role()) in ('admin', 'staff'));
+  drop policy if exists "Admins can manage allocations"
+    on public.resource_allocations;
   create policy "Admins can manage allocations"
     on public.resource_allocations for all to authenticated
     using ((select public.current_user_role()) = 'admin')
     with check ((select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Admins and owners can view donations"
+    on public.donations;
   create policy "Admins and owners can view donations"
     on public.donations for select to authenticated
     using (
       (select public.current_user_role()) = 'admin'
       or created_by = (select auth.uid())
     );
+  drop policy if exists "Active users can record their own donations"
+    on public.donations;
   create policy "Active users can record their own donations"
     on public.donations for insert to authenticated
     with check (
       (select public.current_user_role()) in ('admin', 'staff')
       and created_by = (select auth.uid())
     );
+  drop policy if exists "Admins can update donations" on public.donations;
   create policy "Admins can update donations"
     on public.donations for update to authenticated
     using ((select public.current_user_role()) = 'admin')
     with check ((select public.current_user_role()) = 'admin');
+  drop policy if exists "Admins can delete donations" on public.donations;
   create policy "Admins can delete donations"
     on public.donations for delete to authenticated
     using ((select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Active users can view donation distributions"
+    on public.donation_monitoring;
   create policy "Active users can view donation distributions"
     on public.donation_monitoring for select to authenticated
     using ((select public.current_user_role()) in ('admin', 'staff'));
+  drop policy if exists "Admins can manage donation distributions"
+    on public.donation_monitoring;
   create policy "Admins can manage donation distributions"
     on public.donation_monitoring for all to authenticated
     using ((select public.current_user_role()) = 'admin')
     with check ((select public.current_user_role()) = 'admin');
 
+  drop policy if exists "Admins can view activity logs" on public.activity_logs;
   create policy "Admins can view activity logs"
     on public.activity_logs for select to authenticated
     using ((select public.current_user_role()) = 'admin');
+  drop policy if exists "Active users can add their own activity logs"
+    on public.activity_logs;
   create policy "Active users can add their own activity logs"
     on public.activity_logs for insert to authenticated
     with check (
